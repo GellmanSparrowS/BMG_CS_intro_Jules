@@ -1,0 +1,6 @@
+Single SPC/E water molecule for Gromacs tutorial
+3
+    1SOL     OW    1   0.00000   0.00000   0.00000
+    1SOL    HW1    2   0.00000   0.09572   0.00000
+    1SOL    HW2    3   0.08291  -0.04786   0.00000
+   0.30000   0.30000   0.30000

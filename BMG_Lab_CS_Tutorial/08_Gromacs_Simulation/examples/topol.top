@@ -1,0 +1,64 @@
+; Gromacs topology file for a single SPC/E water molecule
+; Created by BMG Lab Tutorial Agent
+; This file is self-contained for simplicity.
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+  1             2               yes             0.5     0.8333
+
+; --- Non-bonded parameters (非键参数) ---
+; OPLS-AA Lennard-Jones parameters are often used with SPC/E for the oxygen
+; For simplicity, we use a common representation.
+; OPLS-AA Lennard-Jones 参数常与 SPC/E 一起用于氧原子
+; 为简单起见，我们使用一种常见的表示方法。
+
+[ atomtypes ]
+; name  bond_type   mass    charge   ptype  sigma      epsilon
+OW_spce OW          15.99940  0.0000   A   3.16557e-01  6.50194e-01 ; Oxygen in SPC/E (SPC/E中的氧)
+HW_spce HW           1.00800  0.0000   A   0.00000e+00  0.00000e+00 ; Hydrogen in SPC/E (SPC/E中的氢)
+                                                                   ; LJ parameters for H are often zero in SPC/E as LJ is on OW
+                                                                   ; SPC/E中氢的LJ参数通常为零，因为LJ作用在OW上
+
+; --- Molecule type: SOL (SPC/E Water) (分子类型: SOL (SPC/E 水)) ---
+[ moleculetype ]
+; name  nrexcl
+SOL     2  ; Name of molecule, number of excluded neighbors (分子名称, 排除近邻数)
+
+[ atoms ]
+; nr  type    resnr residue  atom  cgnr  charge    mass
+  1   OW_spce   1     SOL      OW    1    -0.8476  15.99940  ; Oxygen atom with SPC/E charge (带SPC/E电荷的氧原子)
+  2   HW_spce   1     SOL      HW1   1     0.4238   1.00800  ; First hydrogen atom (第一个氢原子)
+  3   HW_spce   1     SOL      HW2   1     0.4238   1.00800  ; Second hydrogen atom (第二个氢原子)
+
+; --- Bonded parameters (键合参数) ---
+[ bonds ]
+; ai  aj  funct   c0 (nm)     c1 (kJ/mol/nm^2)
+; OW-HW bonds for SPC/E are typically constrained or flexible with a specific force constant.
+; For simplicity with a single molecule and focus on setup, we define a harmonic bond.
+; If using constraints (as is common for SPC/E water in md_params.mdp), these explicit bond parameters
+; are less critical for dynamics but define the equilibrium geometry.
+; SPC/E的OW-HW键通常是被约束的，或使用特定的力常数使其柔性。
+; 为简化单分子设置并专注于配置，我们定义一个简谐键。
+; 如果使用约束 (如md_params.mdp中对SPC/E水的常见做法)，这些显式的键参数
+; 对动力学不那么关键，但它们定义了平衡几何形状。
+  1   2   1       0.1000      200000  ; OW - HW1 (O-H bond length ~0.1 nm - O-H键长约0.1 nm)
+  1   3   1       0.1000      200000  ; OW - HW2
+
+[ angles ]
+; ai  aj  ak  funct   c0 (degrees)  c1 (kJ/mol/rad^2)
+; H-O-H angle for SPC/E
+; SPC/E的H-O-H键角
+  2   1   3   1       109.47      450     ; HW1 - OW - HW2 (tetrahedral angle - 四面体角)
+
+; --- System information (系统信息) ---
+[ system ]
+; Name
+Single_SPC_E_Water_Molecule_Tutorial
+
+[ molecules ]
+; Compound        nmols
+SOL             1     ; Number of SOL molecules (SOL 分子的数量)
+                      ; This must match the number of molecules defined in your .gro file
+                      ; (1 molecule with 3 atoms in the provided water_box.gro)
+                      ; 这必须与 .gro 文件中定义的分子数量匹配
+                      ; (在提供的 water_box.gro 中是1个分子，包含3个原子)
